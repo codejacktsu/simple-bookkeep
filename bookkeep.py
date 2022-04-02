@@ -48,12 +48,12 @@ class IncStat(Statement):
         pd.DataFrame({'USD': [0.00, 0.00, 0.00, 0.00, 0.00, 0.00]},
                      index=['Gross Income', 'Gross Expense',
                             'Operating Income',
-                            'Capital Income', 'Captial Expense',
+                            'Capital Income', 'Capital Expense',
                             'Net Income']).to_csv(self.path)
 
     def update(self):
         self.df.at['Operating Income', 'USD'] = self.df.at['Gross Income', 'USD'] - self.df.at['Gross Expense', 'USD']
-        self.df.at['Net Income', 'USD'] = self.df.at['Operating Income', 'USD'] + self.df.at['Capital Income', 'USD'] - self.df.at['Captial Expense', 'USD']
+        self.df.at['Net Income', 'USD'] = self.df.at['Operating Income', 'USD'] + self.df.at['Capital Income', 'USD'] - self.df.at['Capital Expense', 'USD']
 
 
 class BalSht(Statement):
