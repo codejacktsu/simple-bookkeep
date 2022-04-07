@@ -20,7 +20,7 @@ class Statement:
 
     def entry(self, category, amount):
         self.df.at[category, 'USD'] += amount
-        self.update()
+        # self.update()
 
     def remove(self, category, amount):
         self.df.at[category, 'USD'] -= amount
@@ -152,14 +152,16 @@ class FinStat:
                     self.bal_sht.entry(tgt_cat, cost)
                 elif "Expense" in category:
                     self.bal_sht.entry(tgt_cat, -cost)
+                self.update()
             elif category in self.bal_sht.df.index:
                 # reallocate from category to tgt_cat
                 self.bal_sht.entry(category, -cost)
                 self.bal_sht.entry(tgt_cat, cost)
+                self.update()
             else:
                 raise NameError("Unknown category!")
-            # if not self.bal_sht.balance:
-            #     raise NameError("Unbalanced accounts!")
+            if not self.bal_sht.balance:
+                raise NameError("Unbalanced accounts!")
         except NameError:
             self.revert(tmp_ledger, tmp_inc_stat, tmp_bal_sht, transact)
 
