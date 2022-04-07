@@ -153,11 +153,13 @@ class FinStat:
                 elif "Expense" in category:
                     self.bal_sht.entry(tgt_cat, -cost)
             elif category in self.bal_sht.df.index:
-                self.bal_sht.entry(category, cost)
+                # reallocate from category to tgt_cat
+                self.bal_sht.entry(category, -cost)
+                self.bal_sht.entry(tgt_cat, cost)
             else:
                 raise NameError("Unknown category!")
-            if not self.bal_sht.balance:
-                raise NameError("Unbalanced accounts!")
+            # if not self.bal_sht.balance:
+            #     raise NameError("Unbalanced accounts!")
         except NameError:
             self.revert(tmp_ledger, tmp_inc_stat, tmp_bal_sht, transact)
 
